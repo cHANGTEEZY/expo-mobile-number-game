@@ -5,7 +5,7 @@ import { StyleSheet, TextInput, View } from "react-native";
 const StartGameScreen = () => {
   const [enteredNumber, setEnteredNumber] = useState();
 
-  const handleNumberChange = (number) => {
+  const handleNumberChange = (number: any) => {
     setEnteredNumber(number);
   };
 
