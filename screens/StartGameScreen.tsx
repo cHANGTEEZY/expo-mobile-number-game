@@ -1,7 +1,14 @@
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
+import { useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
 const StartGameScreen = () => {
+  const [enteredNumber, setEnteredNumber] = useState();
+
+  const handleNumberChange = (number) => {
+    setEnteredNumber(number);
+  };
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -9,9 +16,17 @@ const StartGameScreen = () => {
         placeholderTextColor={"white"}
         maxLength={2}
         keyboardType="numeric"
+        value={enteredNumber}
+        onChange={handleNumberChange}
       />
-      <PrimaryButton color="white">Reset</PrimaryButton>
-      <PrimaryButton color="orange">Confirm</PrimaryButton>
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton color="white">Reset</PrimaryButton>
+        </View>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton color="orange">Confirm</PrimaryButton>
+        </View>
+      </View>
     </View>
   );
 };
@@ -20,13 +35,12 @@ export default StartGameScreen;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 16,
     marginTop: 100,
     marginHorizontal: 24,
-    backgroundColor: "#72063c",
+    backgroundColor: "#4e0329",
     borderRadius: 8,
     elevation: 30,
     shadowColor: "black",
@@ -38,7 +52,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
   },
 
+  buttonsContainer: {
+    flexDirection: "row",
+  },
+
+  buttonContainer: {
+    flex: 1,
+  },
+
   numberInput: {
+    textAlign: "center",
     height: 50,
     width: 50,
     fontSize: 18,
