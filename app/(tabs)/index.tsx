@@ -1,21 +1,74 @@
-import StartGameScreen from "@/screens/StartGameScreen";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import { ImageBackground, StyleSheet } from "react-native";
+import { Platform, SafeAreaView, StyleSheet } from "react-native";
+
+import { Colors } from "@/constants/Colors";
+import GameOverScreen from "@/screens/GameOverScreen";
+import GameScreen from "@/screens/GameScreen";
+import StartGameScreen from "@/screens/StartGameScreen";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
 
 const index = () => {
-  const [userNumber, setUserNumber] = useState<number | null>(null);
+  const [userNumber, setUserNumber] = useState<number | null>(0);
+  const [gameIsOver, setGameIsOver] = useState(false);
+  const [guessRounds, setGuessRounds] = useState(0);
+
+  const [fontsLoaded] = useFonts({
+    "open-sans": require("../../assets/fonts/OpenSans-Regular.ttf"),
+    "open-sans-bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
+  function gameOverHandler(numberOfRounds: number) {
+    setGameIsOver(true);
+    setGuessRounds(numberOfRounds);
+  }
+
+  function startNewGameHandler() {
+    setUserNumber(null);
+    setGameIsOver(false);
+    setGuessRounds(0);
+  }
+
+  let screen = <StartGameScreen setUserNumber={setUserNumber} />;
+
+  if (userNumber) {
+    screen = (
+      <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} />
+    );
+  }
+
+  if (gameIsOver && userNumber !== null) {
+    screen = (
+      <GameOverScreen
+        userNumber={userNumber}
+        roundsNumber={guessRounds}
+        onStartNewGame={startNewGameHandler}
+      />
+    );
+  }
 
   return (
-    <LinearGradient colors={["#4e0329", "#ddb52f"]} style={styles.rootScreen}>
-      <ImageBackground
-        source={require("../../assets/images/background.png")}
-        resizeMode="cover"
-        style={styles.rootScreen}
-        imageStyle={styles.backgroundImge}
+    <LinearGradient
+      colors={[Colors.primary500, Colors.primary800]}
+      style={styles.rootScreen}
+    >
+      <SafeAreaView
+        style={[
+          { flex: 1 },
+          Platform.OS === "android"
+            ? {
+                paddingTop: 55,
+              }
+            : "",
+        ]}
       >
-        <StartGameScreen />;
-      </ImageBackground>
+        {screen}
+      </SafeAreaView>
     </LinearGradient>
   );
 };
@@ -28,7 +81,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  backgroundImge: {
+  backgroundImage: {
     opacity: 0.6,
   },
 });
