@@ -8,6 +8,7 @@ import GameScreen from "@/screens/GameScreen";
 import StartGameScreen from "@/screens/StartGameScreen";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
+import { StatusBar } from "expo-status-bar";
 
 const index = () => {
   const [userNumber, setUserNumber] = useState<number | null>(0);
@@ -53,23 +54,26 @@ const index = () => {
   }
 
   return (
-    <LinearGradient
-      colors={[Colors.primary500, Colors.primary800]}
-      style={styles.rootScreen}
-    >
-      <SafeAreaView
-        style={[
-          { flex: 1 },
-          Platform.OS === "android"
-            ? {
-                paddingTop: 55,
-              }
-            : "",
-        ]}
+    <>
+      <StatusBar style="light" />
+      <LinearGradient
+        colors={[Colors.primary500, Colors.primary800]}
+        style={styles.rootScreen}
       >
-        {screen}
-      </SafeAreaView>
-    </LinearGradient>
+        <SafeAreaView
+          style={[
+            { flex: 1 },
+            Platform.OS === "android"
+              ? {
+                  paddingTop: 55,
+                }
+              : "",
+          ]}
+        >
+          {screen}
+        </SafeAreaView>
+      </LinearGradient>
+    </>
   );
 };
 
