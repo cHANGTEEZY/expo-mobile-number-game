@@ -1,3 +1,5 @@
+import React from "react";
+
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import { Platform, SafeAreaView, StyleSheet } from "react-native";
@@ -16,8 +18,8 @@ const index = () => {
   const [guessRounds, setGuessRounds] = useState(0);
 
   const [fontsLoaded] = useFonts({
-    "open-sans": require("../../assets/fonts/OpenSans-Regular.ttf"),
-    "open-sans-bold": require("../../assets/fonts/OpenSans-Bold.ttf"),
+    "open-sans": require("../assets/fonts/OpenSans-Regular.ttf"),
+    "open-sans-bold": require("../assets/fonts/OpenSans-Bold.ttf"),
   });
 
   if (!fontsLoaded) {
